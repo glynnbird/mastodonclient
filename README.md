@@ -5,31 +5,32 @@ Minimal Mastodon client for my purposes. Does the OAuth dance and allows toots t
 ## Installation
 
 ```sh
-npm install --save https://github.com/glynnbird/mastodonclient
+npm install --save mastodonclient
 ```
 
 ## Usage
 
-One time only, you need to do the OAuth dance:
+One time only, you need to do the OAuth dance. This is an interactive process where you'll need to enter your Mastodon hostname, visit a URL and enter the code displayed at that URL back into the command line prompt.
 
 ```js
-const mastodonclient = require('mastodonclient')
-const config = await mastodonclient.auth()
+const m = require('mastodonclient')
+const config = await m.auth()
+console.log(config)
 ```
 
 The `config` is a JS object that contains all the details required to authenticate you to make Mastodon API calls. Stash this away in a file somewhere.
 
-Then we can instantiate the `MastodonClient` itself from the config you created or one you reloaded the you stashed before:
+If we have a `config` object we can instantiate the `MastodonClient` itself:
 
 ```js
-const mc = new mastodonclient.MastodonClient(config)
+const mc = new m.MastodonClient(config)
 ```
 
 This can be used to post toots:
 
 ```js
 // message, visibility, content warning 
-await mc.post("Who's there?", 'public', 'Knock knock')
+await mc.post('Who\'s there?', 'public', 'Knock knock')
 ```
 
 fetch your timeline:
@@ -49,4 +50,6 @@ const result = await mc.request({
   }
 })
 ```
+
+See the [Mastodon API reference](https://docs.joinmastodon.org/methods/statuses/).
 
