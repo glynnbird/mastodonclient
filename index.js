@@ -21,16 +21,21 @@ class MastodonClient {
     return response.data
   }
 
-  async post (message, visibility, cw) {
-    return await this.request({
+  async post (message, visibility, spoilerText) {
+    const req = {
       method: 'post',
       url: '/api/v1/statuses',
       data: {
-        status: message,
-        visibility,
-        spoiler_text: cw
+        status: message
       }
-    })
+    }
+    if (visibility) {
+      req.data.visibility = visibility
+    }
+    if (spoilerText) {
+      req.data.spoiler_text = spoilerText
+    }
+    return await this.request()
   }
 
   async home () {
