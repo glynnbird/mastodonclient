@@ -35,7 +35,7 @@ class MastodonClient {
     if (spoilerText) {
       req.data.spoiler_text = spoilerText
     }
-    return await this.request()
+    return await this.request(req)
   }
 
   async home () {
