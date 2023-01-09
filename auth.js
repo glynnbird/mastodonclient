@@ -3,23 +3,24 @@ const HOST = 'mastodon.social'
 const REDIRECT_URL = 'urn:ietf:wg:oauth:2.0:oob'
 const SCOPE = 'read write follow'
 const OAuth2 = require('oauth').OAuth2
-const axios = require('axios')
+const undici = require('undici')
 
 const createOAuthApp = async (apiurl) => {
   const req = {
     method: 'post',
-    baseURL: apiurl,
-    url: '/api/v1/apps',
-    data: {
-      client_name: `toot-${new Date().toISOString().substr(0, 10)}`,
+    body: JSON.stringify({
+      client_name: `toot-${new Date().toISOString().substring(0, 10)}`,
       website: null,
       redirect_uris: REDIRECT_URL,
       scopes: SCOPE
+    }),
+    headers: {
+      'content-type': 'application/json'
     }
   }
   console.log('Creating Mastodon app...')
-  const response = await axios.request(req)
-  return response.data
+  const response = await undici.fetch(apiurl + '/api/v1/apps', req)
+  return await response.json()
 }
 
 const getAuthorizationUrl = async (app, oauth) => {

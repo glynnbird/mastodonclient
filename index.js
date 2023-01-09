@@ -1,5 +1,5 @@
 const auth = require('./auth.js')
-const axios = require('axios')
+const undici = require('undici')
 
 class MastodonClient {
   constructor (config) {
@@ -10,30 +10,35 @@ class MastodonClient {
   async request (opts) {
     const req = {
       method: 'get',
-      baseURL: this.config.baseURL,
       headers: {
         'User-Agent': 'node-mastodonclient',
-        Authorization: `Bearer ${this.config.accessToken}`
+        Authorization: `Bearer ${this.config.accessToken}`,
+        'content-type': 'application/json'
       }
     }
     Object.assign(req, opts)
-    const response = await axios.request(req)
-    return response.data
+    if (req.body) {
+      req.body = JSON.stringify(req.body)
+    }
+    const url = this.config.baseURL + opts.url
+    delete req.url
+    const response = await undici.fetch(url, req)
+    return response.json()
   }
 
   async post (message, visibility, spoilerText) {
     const req = {
       method: 'post',
       url: '/api/v1/statuses',
-      data: {
+      body: {
         status: message
       }
     }
     if (visibility) {
-      req.data.visibility = visibility
+      req.body.visibility = visibility
     }
     if (spoilerText) {
-      req.data.spoiler_text = spoilerText
+      req.body.spoiler_text = spoilerText
     }
     return await this.request(req)
   }
