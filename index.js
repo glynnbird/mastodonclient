@@ -1,5 +1,4 @@
 const auth = require('./auth.js')
-const undici = require('undici')
 
 class MastodonClient {
   constructor (config) {
@@ -22,7 +21,7 @@ class MastodonClient {
     }
     const url = this.config.baseURL + opts.url
     delete req.url
-    const response = await undici.fetch(url, req)
+    const response = await fetch(url, req)
     return response.json()
   }
 
