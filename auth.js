@@ -3,7 +3,6 @@ const HOST = 'mastodon.social'
 const REDIRECT_URL = 'urn:ietf:wg:oauth:2.0:oob'
 const SCOPE = 'read write follow'
 const OAuth2 = require('oauth').OAuth2
-const undici = require('undici')
 
 const createOAuthApp = async (apiurl) => {
   const req = {
@@ -19,7 +18,7 @@ const createOAuthApp = async (apiurl) => {
     }
   }
   console.log('Creating Mastodon app...')
-  const response = await undici.fetch(apiurl + '/api/v1/apps', req)
+  const response = await etch(apiurl + '/api/v1/apps', req)
   return await response.json()
 }
 
