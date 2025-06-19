@@ -1,6 +1,7 @@
 {
   "name": "mastodonclient",
-  "version": "1.1.6",
+  "version": "2.0.0",
+  "type": "module",
   "description": "Simple Mastodon client",
   "main": "index.js",
   "scripts": {
@@ -20,6 +21,6 @@
   },
   "homepage": "https://github.com/glynnbird/mastodonclient#readme",
   "dependencies": {
-    "oauth": "^0.10.0"
+    "oauth": "^0.10.2"
   }
 }

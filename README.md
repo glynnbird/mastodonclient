@@ -13,8 +13,8 @@ npm install --save mastodonclient
 One time only, you need to do the OAuth dance. This is an interactive process where you'll need to enter your Mastodon hostname, visit a URL and enter the code displayed at that URL back into the command line prompt.
 
 ```js
-const m = require('mastodonclient')
-const config = await m.auth()
+import * as mastonclient from 'mastodonclient'
+const config = await mastonclient.auth()
 console.log(config)
 ```
 
@@ -23,7 +23,7 @@ The `config` is a JS object that contains all the details required to authentica
 If we have a `config` object we can instantiate the `MastodonClient` itself:
 
 ```js
-const mc = new m.MastodonClient(config)
+const mc = new mastonclient.MastodonClient(config)
 ```
 
 This can be used to post toots:
